@@ -8,7 +8,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import DeckList from '.DeckList';
 import AddDeck from '.AddDeck';
 import DeckPreview from '.DeckPreview';
-import AddCard from '.AddCard';
+import AddNewCard from '.AddNewCard';
 import Quiz from '.Quiz';
 import Settings from '.Settings';
 import { darkGray, white, green, blue } from '../utils/colors';
@@ -89,8 +89,8 @@ const MainTabNavigator = createStackNavigator(
         title: 'Deck Preview'
       }
     },
-    AddCard: {
-      screen: AddCard,
+    AddNewCard: {
+      screen: AddNewCard,
       navigationOptions: {
         headerTintColor: white,
         headerStyle: {
