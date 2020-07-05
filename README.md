@@ -45,4 +45,6 @@ This will then open the Expo Developer Tools in your browser. You can then run t
     
 - Also, You can Press 's' to sign in and enable more options
 
-This project has been tested on an Android 9.
+#### Test
+
+- This project has been tested on a Samsung of Android 9.0.
