@@ -1,14 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, StatusBar } from 'react-native';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import middleware from './middleware'
+import reducer from './reducers'
+import AppNavigator from './components/AppNavigator';
 
-export default function App() {
+const store = createStore(reducer, middleware)
+
+function UdaciCardsStatusBar({ backgroundColor, ...rest }) {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...rest} />
     </View>
   );
+}
+export default class App extends Component {
+  componentDidMount () {
+    setLocalNotification()
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <View style={styles.container}>
+          <UdaciCardsStatusBar  backgroundColor="purple"  barStyle="light-content" />
+          <AppNavigator />
+        </View>
+      </Provider>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
