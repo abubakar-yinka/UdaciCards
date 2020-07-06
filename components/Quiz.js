@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Constants from 'expo-constants';
 import Quiz_Android from './Quiz_Android';
 import Quiz_iOS from './Quiz_iOS';
-import { setLocalNotification, clearLocalNotification } from '../utils/helpers';
+import { setLocalNotification, clearLocalNotification } from '../utils/api';
 
-export class Quiz extends Component {
+class Quiz extends Component {
   static navigationOptions = ({ navigation }) => {
     const title = navigation.getParam('title', '');
     return {
@@ -22,9 +22,9 @@ export class Quiz extends Component {
     const title = navigation.getParam('title', '');
 
     if (Constants.platform.android) {
-      return <Quiz_Android title={title} />;
+      return <Quiz_Android title={title} />
     }
-    return <Quiz_iOS title={title} />;
+    return <Quiz_iOS title={title} />
   }
 }
 

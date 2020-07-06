@@ -1,40 +1,40 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
-import { darkGray, green, white } from '../utils/colors';
+import { darkGray, green, white, gray } from '../utils/colors';
 import { connect } from 'react-redux';
 import { addDeck } from '../actions/index';
 import { saveDeckTitle_ } from '../utils/api';
 import { StackActions, NavigationActions } from 'react-navigation';
 import TouchButton from './TouchButton';
 
+//This is a Controlled Component because form state, which is controlled by React, is the single source of truth and lives 
+//inside of the component state rather than inside of the DOM.
 class AddDeck extends Component {
   state = {
     input: ''
   };
 
-  handleChange = input => {
-    this.setState({ input });
-  };
+  handleChange = input =>  { this.setState({ input }) };
 
   handleSubmit = () => {
-    const { addDeck, navigation } = this.props;
+    const { navigation, dispatch } = this.props;
     const { input } = this.state;
 
     //Udate redux
-    addDeck(input);
+    dispatch(addDeck(input));
 
     //update AsyncStorage
     saveDeckTitle_(input);
 
     //Navigate to home, Reset State and consequetially, the input field
-    const resetAction = StackActions.reset({
+    const resetStateToDefault = StackActions.reset({
       index: 1,
       actions: [
         NavigationActions.navigate({ routeName: 'Home' }),
         NavigationActions.navigate({ routeName: 'DeckPreview', params: { title: input }})
       ]
     });
-    navigation.dispatch(resetAction);
+    navigation.dispatch(resetStateToDefault);
     this.setState(() => ({ input: '' }));
   };
 
@@ -60,7 +60,7 @@ class AddDeck extends Component {
           onPress={this.handleSubmit}
           disabled={input === ''}
         >
-          Create Deck
+          Create New Deck
         </TouchButton>
       </KeyboardAvoidingView >
     );
@@ -84,9 +84,8 @@ const styles = StyleSheet.create({
     fontSize: 32
   },
   input: {
-    flex: 0.7,
     borderWidth: 1,
-    borderColor: darkGray,
+    borderColor: gray,
     backgroundColor: white,
     paddingLeft: 5,
     paddingRight: 5,
@@ -95,6 +94,6 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 20
   }
-});
+})
 
-export default connect( null, { addDeck } )(AddDeck);
+export default connect()(AddDeck);

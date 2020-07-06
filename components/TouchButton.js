@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import { white, darkGray, darkGray } from '../utils/colors';
+import { white, darkGray, gray } from '../utils/colors';
 
-export default function TouchButton({ children, onPress, btnStyle = {}, txtStyle = {}, disabled = false }) {
+function TouchButton({ children, onPress, btnStyle = {}, txtStyle = {}, disabled = false }) {
   const disabledButton = disabled ? styles.btnDisabled : {};
   const disabledButtonText = disabled ? styles.btnTextDisabled : {};
 
@@ -39,15 +39,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: `center`,
     alignItems: `center`,
-    borderWidth: 1,
-    borderColor: '#999'
+    borderColor: gray
   },
   btnDisabled: {
     backgroundColor: darkGray,
-    borderColor: darkGray
+    borderColor: gray
   },
   btnText: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     color: white
   },
@@ -55,5 +54,7 @@ const styles = StyleSheet.create({
     color: darkGray
   }
 });
+
+export default TouchButton
 
 

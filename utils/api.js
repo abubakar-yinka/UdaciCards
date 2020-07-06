@@ -1,88 +1,100 @@
 import { AsyncStorage } from 'react-native'
-import { Notifications, Permissions } from 'expo'
+import { Notifications } from 'expo'
+import * as Permissions from 'expo-permissions';
 
 const DECKS_STORAGE_KEY = 'UdaciCards:decks';
 const NOTIFICATION_KEY = 'UdaciCards:notifications';
 
-export function getDefaultDecks() {
-  const decks = {
-    React: {
-      title: 'React',
-      questions: [
-        {
-          question: 'What is React?',
-          answer: 'A library for managing user interfaces'
-        },
-        {
-          question: 'Where do you make Ajax requests in React?',
-          answer: 'The componentDidMount lifecycle event'
-        }
-      ]
-    },
-    JavaScript: {
-      title: 'JavaScript',
-      questions: [
-        {
-          question: 'What is a closure?',
-          answer: 'The combination of a function and the lexical environment within which that function was declared.'
-        }
-      ]
-    }
-  };
+export const decks = {
+  React: {
+    title: 'React',
+    questions: [
+      {
+        question: 'What is React?',
+        answer: 'A library for managing user interfaces'
+      },
+      {
+        question: 'Where do you make Ajax requests in React?',
+        answer: 'The componentDidMount lifecycle event'
+      }
+    ]
+  },
+  JavaScript: {
+    title: 'JavaScript',
+    questions: [
+      {
+        question: 'What is a closure?',
+        answer: 'The combination of a function and the lexical environment within which that function was declared.'
+      }
+    ]
+  }
+};
 
+export function getData() {
   return decks;
 }
 
-function formatTheDecks (results) {
-  return results === null ? getDefaultDecks() : JSON.parse(results)
+//Asynchronous functions
+export async function getDecks() {
+  try {
+    const storeResults = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+
+    if (storeResults === null) {
+      AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
+    }
+    return storeResults === null 
+      ? decks 
+      : JSON.parse(storeResults);
+  } catch (error) {
+    console.log('There is an error: ', error);
+  }
 }
 
-export function getDecks () {
-  return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((decks) => formatTheDecks(decks))
+export async function getDeck(id) {
+  try {
+    const storeResults = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
+
+    return JSON.parse(storeResults)[id];
+  } catch (error) {
+    console.log('There is an error: ', error);
+  }
 }
 
-export function getDeck(key) {
-    const storeDeck = AsyncStorage.getItem(DECKS_STORAGE_KEY);
+export async function addCardToDeck_(title, card) {
+  try {
+    const deck = await getDeck(title);
 
-    return JSON.parse(storeDeck)[key];
+    await AsyncStorage.mergeItem(
+      DECKS_STORAGE_KEY,
+      JSON.stringify({
+        [title]: {
+          questions: [...deck.questions].concat(card)
+        }
+      })
+    );
+  } catch (error) {
+    console.log('There is an error: ', error);
+  }
 }
 
-export function addCardToDeck_ (card, title) {
-  const deck = getDeck(title);
-
+export async function saveDeckTitle_(title) {
   return AsyncStorage.mergeItem(
-    DECKS_STORAGE_KEY,
-    JSON.stringify({
-      [title]: {
-        questions: [...deck.questions].concat(card)
-      }
-    })
-  );
+      DECKS_STORAGE_KEY,
+      JSON.stringify({
+        [title]: {
+          title,
+          questions: []
+        }
+      })
+    );
 }
 
-export function resetDecks() {
-  return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
-}
-
-export function removeDeck_(key) {
-  const results = AsyncStorage.getItem(DECKS_STORAGE_KEY);
-  const data = JSON.parse(results);
-  data[key] = undefined;
-  delete data[key];
-  
-  return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data));
-}
-
-export function saveDeckTitle_ (title) {
-  return AsyncStorage.mergeItem(
-    DECKS_STORAGE_KEY,
-    JSON.stringify({
-      [title]: {
-        title,
-        questions: []
-      }
-    })
-  );
+export async function resetDecks() {
+  try {
+    await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
+  } catch (error) {
+    console.log('There is an error: ', error);
+  }
 }
 
 function createNotification () {

@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 
 const Deck = props => {
   const { deck } = props;
-
-  if (deck === undefined) {
+    if (deck === undefined) {
     return <View style={styles.deckContainer} />;
   } else {
     return (
@@ -46,6 +45,6 @@ const mapStateToProps = (state, { id }) => {
   return {
     deck: state[id]
   };
-};
+}
 
 export default connect(mapStateToProps)(Deck);

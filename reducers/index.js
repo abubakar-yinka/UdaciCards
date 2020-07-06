@@ -1,6 +1,6 @@
-import { ADD_DECK, RECEIVE_DECKS, REMOVE_DECK, ADD_CARD, CLEAR_DECKS } from '../actions';
-import { getDefaultDecks } from "..utils/api";
-  
+import { ADD_DECK, RECEIVE_DECKS, ADD_CARD, CLEAR_CUSTOM_DECKS } from '../actions/index';
+import { decks as defaultState } from '../utils/api';
+
 export default function decks(state = {}, action) {
   switch (action.type) {
     case ADD_DECK:
@@ -19,29 +19,22 @@ export default function decks(state = {}, action) {
         ...action.decks
       };
 
-    case REMOVE_DECK:
-      const { [action.id]: value, ...remainingDecks } = state;
-      return remainingDecks;
-
-    case ADD_CARD:
-      const { card, title } = action
-      data = state.decks
-      return {
+      case ADD_CARD:
+        const { deckId, card } = action;
+        return {
           ...state,
-          decks: {
-              ...data,
-              [title]: {
-                  title: title,
-                  questions: data[title].questions.concat([card])
-              }
+          [deckId]: {
+            ...state[deckId],
+            questions: [...state[deckId].questions].concat(card)
           }
-      };
+        };
 
-    case CLEAR_DECKS:
-      return getDefaultDecks()
-
-    default:
-      return state;
+      case CLEAR_CUSTOM_DECKS:
+        return defaultState;
+  
+      default:
+        return state;
+    }
   }
-}
+
   

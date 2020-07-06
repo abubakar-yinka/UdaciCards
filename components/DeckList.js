@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity
-} from 'react-native';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import Deck from './Deck';
 import { darkGray, blue  } from '../utils/colors';
@@ -13,8 +7,7 @@ import { handleInitialData } from '../actions/index';
 
 class DeckList extends Component {
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(handleInitialData())
+    this.props.dispatch(handleInitialData());
   }
 
   render() {
@@ -23,6 +16,7 @@ class DeckList extends Component {
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.title}>UdaciCards</Text>
+        {console.log(decks)} 
         {Object.values(decks).map(deck => {
           return (
             <TouchableOpacity
@@ -43,19 +37,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: darkGray,
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 20,
+    paddingTop: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 15,
   },
   title: {
     color: blue,
-    fontSize: 50,
+    fontSize: 45,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 15,
   }
-});
+})
 
 const mapStateToProps = state => ({ decks: state });
 
-export default connect( mapStateToProps, { handleInitialData } )(DeckList);
+export default connect( mapStateToProps )(DeckList);

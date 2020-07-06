@@ -1,16 +1,15 @@
-//MainNavigatorTab contains tabNavigaor and stackNavigator
 import React from 'react';
 import { Platform } from 'react-native';
 import * as Icon from '@expo/vector-icons';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
-import DeckList from '.DeckList';
-import AddDeck from '.AddDeck';
-import DeckPreview from '.DeckPreview';
-import AddNewCard from '.AddNewCard';
-import Quiz from '.Quiz';
-import Settings from '.Settings';
+import DeckList from './DeckList';
+import AddDeck from './AddDeck';
+import DeckPreview from './DeckPreview';
+import AddNewCard from './AddNewCard';
+import Quiz from './Quiz';
+import Settings from './Settings';
 import { darkGray, white, green, blue } from '../utils/colors';
 
 const Tabs = createBottomTabNavigator({
@@ -52,7 +51,7 @@ const Tabs = createBottomTabNavigator({
     activeTintColor: blue,
     style: {
       height: 50,
-      backgroundColor: white,
+      backgroundColor: darkGray,
     },
     labelStyle: {
       fontWeight: 'bold',
@@ -60,9 +59,8 @@ const Tabs = createBottomTabNavigator({
     },
     tabStyle: {
       marginTop: 5,
-      marginBottom: 3
+      marginBottom: 5
     },
-    // showIcon: true
   }
 });
 
@@ -72,7 +70,14 @@ const MainTabNavigator = createStackNavigator(
       screen: Tabs,
       navigationOptions: {
         title: 'Home',
-        headerTintColor: 'white'
+        headerTintColor: white,
+        headerStyle: {
+          backgroundColor: blue
+        },
+        headerTitleStyle: {
+          justifyContent: 'center',
+          textAlign: 'center'
+        }
       }
     },
     DeckPreview: {
@@ -117,7 +122,6 @@ const MainTabNavigator = createStackNavigator(
       }
     }
   },
-  // { headerTitleAlign: 'center' }
 );
 
 const AppNavigator = createAppContainer(MainTabNavigator);

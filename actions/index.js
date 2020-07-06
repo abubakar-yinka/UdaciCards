@@ -3,9 +3,9 @@ import { getDecks } from '../utils/api';
 //action types
 export const ADD_DECK = 'ADD_DECK';
 export const RECEIVE_DECKS = 'RECEIVE_DECKS';
-export const REMOVE_DECK = 'REMOVE_DECK';
 export const ADD_CARD = 'ADD_CARD';
-export const CLEAR_DECKS = 'CLEAR_DECKS';
+export const CLEAR_CUSTOM_DECKS = 'CLEAR_CUSTOM_DECKS';
+
 
 //action creators
 export function addDeck(title) {
@@ -22,24 +22,17 @@ export function receiveDecks(decks) {
   };
 }
 
-export function removeDeck(id) {
-  return {
-    type: REMOVE_DECK,
-    id
-  };
-}
-
-export function addCardToDeck(title, card) {
+export function addCardToDeck(deckId, card) {
   return {
     type: ADD_CARD,
-    title,
-    card,
+    deckId,
+    card
   };
 }
 
 export function clearCreatedDecks() {
   return {
-    type: CLEAR_DECKS,
+    type: CLEAR_CUSTOM_DECKS,
   };
 }
 
@@ -47,8 +40,11 @@ export function clearCreatedDecks() {
 export function handleInitialData() {
   return dispatch => {
     return getDecks()
-        .then((decks) => {
+        .then(decks => {
         dispatch(receiveDecks(decks));
     });
   };
 }
+
+
+

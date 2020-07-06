@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import TouchButton from './TouchButton';
-import { darkGray, blue, green, red } from '../utils/colors';
+import { darkGray, green, red } from '../utils/colors';
 import { connect } from 'react-redux';
 import { addCardToDeck } from '../actions/index';
 import { addCardToDeck_ } from '../utils/api';
@@ -22,11 +22,11 @@ class AddNewCard extends Component {
 
   handleSubmit = () => {
     const { question, answer } = this.state;
-    const { title, addCardToDeck, navigation } = this.props;
+    const { title, navigation, dispatch } = this.props;
     const card = { question, answer };
     
-    //Udate redux
-    addCardToDeck(title, card);
+    //Update redux
+    dispatch(addCardToDeck(title, card));
     
     //Save to AsyncStorage
     addCardToDeck_(title, card);
@@ -34,8 +34,8 @@ class AddNewCard extends Component {
     //Reset State and consequetially, the input field
     this.setState({ question: '', answer: '' });
 
-    //Navigate back to DeckList
-    navigation.navigate('DeckList')  
+    //Navigate back
+    navigation.goBack()
   };
 
   render() {
@@ -67,7 +67,7 @@ class AddNewCard extends Component {
 
         {question === '' || answer === ''
           ? ( <Text style={styles.required}>Fill both Question and Answer please</Text> )
-          : ( <TouchButton btnStyle={{ backgroundColor: green, borderColor: '#fff' }} onPress={this.handleSubmit} >Submit</TouchButton>
+          : ( <TouchButton btnStyle={{ backgroundColor: green, borderColor: '#fff' }} onPress={this.handleSubmit} >Add Card</TouchButton>
           )}
 
         <View style={{ height: '30%' }} />
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: 'darkGray',
+    borderColor: darkGray,
     backgroundColor: '#fff',
     paddingLeft: 8,
     paddingRight: 8,
@@ -105,16 +105,16 @@ const styles = StyleSheet.create({
   },
   required: {
     marginTop: 30,
-    txtStyle: red
+    color: red,
+    fontSize: 30,
+    textAlign: 'center'
   }
 });
 
-const mapStateToProps = (state, { navigation }) => {
-  const title = navigation.getParam('title', 'undefined');
-
+function mapStateToProps (state, { navigation } ) {
   return {
-    title
+    title:  navigation.getParam('title', 'undefined')
   };
 };
 
-export default connect( mapStateToProps, { addCardToDeck } )(AddNewCard);
+export default connect( mapStateToProps )(AddNewCard);

@@ -14,10 +14,10 @@ function TextButton({ children, onPress, txtStyle = {} }) {
 const styles = StyleSheet.create({
   btnContainer: {
     alignItems: 'center',
-    marginBottom: 20
+    marginBottom: 25
   },
   btnText: {
-    fontSize: 20
+    fontSize: 25
   }
 });
 

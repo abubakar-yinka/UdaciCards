@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import ViewPager from '@react-native-community/viewpager';
 import TextButton from './TextButton';
 import TouchButton from './TouchButton';
-import { darkGray, green, red, gray, darkGray, white, blue } from '../utils/colors';
+import { green, red, gray, darkGray, white, blue } from '../utils/colors';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 
@@ -211,10 +211,10 @@ const styles = StyleSheet.create({
   },
   pageStyle: {
     flex: 1,
-    paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
+    paddingTop: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 15,
     backgroundColor: darkGray,
     justifyContent: 'space-around'
   },
@@ -230,13 +230,13 @@ const styles = StyleSheet.create({
   },
   questionContainer: {
     borderWidth: 1,
-    borderColor: darkGray,
-    backgroundColor: white,
+    borderColor: gray,
     borderRadius: 5,
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 16,
-    paddingRight: 16,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    backgroundColor: white,
     flexGrow: 1
   },
   questionWrapper: {
@@ -246,16 +246,16 @@ const styles = StyleSheet.create({
   questionText: {
     textDecorationLine: 'underline',
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 15
   },
   resultGood: {
     color: green,
-    fontSize: 46,
+    fontSize: 40,
     textAlign: 'center'
   },
   resultBad: {
     color: red,
-    fontSize: 46,
+    fontSize: 40,
     textAlign: 'center'
   }
 });

@@ -5,17 +5,21 @@ import { Provider } from 'react-redux'
 import middleware from './middleware'
 import reducer from './reducers'
 import AppNavigator from './components/AppNavigator';
+import Constants from 'expo-constants';
+import { setLocalNotification } from './utils/api';
+
 
 const store = createStore(reducer, middleware)
 
 function UdaciCardsStatusBar({ backgroundColor, ...rest }) {
   return (
     <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
-      <StatusBar translucent backgroundColor={backgroundColor} {...rest} />
+      <StatusBar backgroundColor={backgroundColor} {...rest} translucent />
     </View>
   );
 }
-export default class App extends Component {
+
+class App extends Component {
   componentDidMount () {
     setLocalNotification()
   }
@@ -24,7 +28,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          <UdaciCardsStatusBar  backgroundColor="purple"  barStyle="light-content" />
+          <UdaciCardsStatusBar  backgroundColor="blue"  barStyle="light-content" />
           <AppNavigator />
         </View>
       </Provider>
@@ -35,8 +39,11 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#666',
+
   },
 });
+
+export default App
+
+
