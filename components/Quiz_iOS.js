@@ -266,9 +266,11 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps ( {decks}, { title }) {
+const mapStateToProps = (state, { title }) => {
+  const deck = state[title];
+  
   return {
-    deck: decks[title]
+    deck
   };
 };
 
